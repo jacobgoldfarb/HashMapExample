@@ -1,5 +1,3 @@
-import sys
-
 class HashMap:
     def __init__(self, capacity: int = 10):
         self.capcity = capacity
@@ -36,29 +34,29 @@ class HashMap:
         return hash(key)
 
     def _hash_idx(self, key: str):
-        return self._hash_key(key) % self.capcity
+        return self._hash_key(key) & (self.capcity - 1)
 
 def test():
-    LIMIT = 10
-    CAPACITY = 10
+    NUM_ELEMENTS = 10
+    NUM_BUCKETS = 10
 
-    dict = HashMap(CAPACITY)
+    dict = HashMap(NUM_BUCKETS)
 
     # populate hash map
-    for i in range(LIMIT):
+    for i in range(NUM_ELEMENTS):
         dict.add(f"Jacob{i}", i)
 
     # retrieve results
-    for i in range(LIMIT):
+    for i in range(NUM_ELEMENTS):
         print(dict.get(f"Jacob{i}"))
     print("-----------")
 
     # delete middle third
-    for i in range(LIMIT//3, LIMIT//3 * 2):
+    for i in range(NUM_ELEMENTS//3, NUM_ELEMENTS//3 * 2):
         dict.remove(f"Jacob{i}")
 
     # retrieve again, expecting key errors
-    for i in range(LIMIT):
+    for i in range(NUM_ELEMENTS):
         try:
             print(dict.get(f"Jacob{i}"))
         except KeyError as e:
@@ -66,4 +64,4 @@ def test():
     print("-----------")
 
 if __name__ == "__main__":
-    sys.exit(test())
+    test()
