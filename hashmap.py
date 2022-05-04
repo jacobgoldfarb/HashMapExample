@@ -38,7 +38,7 @@ class HashMap:
     def _hash_idx(self, key: str):
         return self._hash_key(key) % self.capcity
 
-def main():
+def test():
     LIMIT = 10
     CAPACITY = 10
 
@@ -66,4 +66,4 @@ def main():
     print("-----------")
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(test())
