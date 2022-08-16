@@ -1,13 +1,13 @@
 class HashMap:
     def __init__(self, capacity: int = 10):
-        self.capcity = capacity
-        self.store = [None] * capacity
+        self.capacity = capacity
+        self.store = [None for _ in range(capacity)]
         self.len = 0
 
     def __len__(self):
         return self.len
 
-    def add(self, key: str, value):
+    def __setitem__(self, key: str, value):
         idx = self._hash_idx(key)
         self.len += 1
         if self.store[idx] == None:
@@ -15,12 +15,18 @@ class HashMap:
         else:
             self.store[idx].append((key, value))
 
+    def __getitem__(self, key: str):
+        result = self.get(key)
+        if result == None:
+            raise KeyError(f"Key Error: No object in HashMap with key '{key}'")
+        return result
+        
     def get(self, key: str):
         idx = self._hash_idx(key)
         try:
             return [candidate for candidate in self.store[idx] if candidate[0] == key][0][1]
         except:
-            raise KeyError(f"Key Error: No object in HashMap with key '{key}'")
+            return None
 
     def remove(self, key):
         self.len -= 1
@@ -34,7 +40,7 @@ class HashMap:
         return hash(key)
 
     def _hash_idx(self, key: str):
-        return self._hash_key(key) & (self.capcity - 1)
+        return self._hash_key(key) & (self.capacity - 1)
 
 def test():
     NUM_ELEMENTS = 10
@@ -44,11 +50,11 @@ def test():
 
     # populate hash map
     for i in range(NUM_ELEMENTS):
-        dict.add(f"Jacob{i}", i)
+        dict[f"Jacob{i}"] = i
 
     # retrieve results
     for i in range(NUM_ELEMENTS):
-        print(dict.get(f"Jacob{i}"))
+        print(dict[f"Jacob{i}"])
     print("-----------")
 
     # delete middle third
@@ -58,7 +64,7 @@ def test():
     # retrieve again, expecting key errors
     for i in range(NUM_ELEMENTS):
         try:
-            print(dict.get(f"Jacob{i}"))
+            print(dict[f"Jacob{i}"])
         except KeyError as e:
             print(f"key error for idx {i}: {e}")
     print("-----------")
